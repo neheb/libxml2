@@ -60,12 +60,9 @@ want_ftp = get_option('ftp')
 want_history = get_option('history')
 want_html = get_option('html')
 want_http = get_option('http')
-want_iconv = get_option('iconv')
-want_icu = get_option('icu')
 want_ipv6 = get_option('ipv6')
 want_iso8859x = get_option('iso8859x')
 want_legacy = get_option('legacy')
-want_lzma = get_option('lzma')
 want_modules = get_option('modules')
 want_output = get_option('output')
 want_pattern = get_option('pattern')
@@ -87,7 +84,6 @@ want_xinclude = get_option('xinclude')
 want_xpath = get_option('xpath')
 want_xptr = get_option('xptr')
 want_xptr_locs = get_option('xptr-locs')
-want_zlib = get_option('zlib')
 
 # TODO: Options should be three-valued: "yes", "no", default
 
@@ -185,10 +181,8 @@ if get_option('minimum')
     want_history = false
     want_html = false
     want_http = false
-    want_iconv = false
     want_ipv6 = false
     want_iso8859x = false
-    want_lzma = false
     want_modules = false
     want_output = false
     want_pattern = false
@@ -209,7 +203,6 @@ if get_option('minimum')
     want_xpath = false
     want_xptr = false
     want_xptr_locs = false
-    want_zlib = false
 else
     # Disable dependent modules
     if want_output == false
@@ -582,51 +575,41 @@ int main()
 endif
 
 ### zlib
-if want_zlib == true
-    zlib_dep = dependency('zlib', required: false)
-    if zlib_dep.found()
-        xml_deps += zlib_dep
-    else
-        want_zlib = false
-    endif
+if not get_option('minimum')
+    zlib_dep = dependency('zlib', required: get_option('zlib'))
+else
+    zlib_dep = dependency('', required: false)
 endif
+xml_deps += zlib_dep
 
 ### lzma
-if want_lzma == true
-    lzma_dep = dependency('liblzma', required: false)
-    if lzma_dep.found()
-        xml_deps += lzma_dep
-    else
-        want_lzma = false
-    endif
+if not get_option('minimum')
+    lzma_dep = dependency('liblzma', required: get_option('lzma'))
+else
+    lzma_dep = dependency('', required: false)
 endif
+xml_deps += lzma_dep
 
 ### iconv
-if want_iconv == true
-    iconv_dep = dependency('iconv', required: false)
-    if iconv_dep.found()
-        xml_deps += iconv_dep
-    else
-        want_iconv = false
-    endif
+if not get_option('minimum')
+    iconv_dep = dependency('iconv', required: get_option('iconv'))
+else
+    iconv_dep = dependency('', required: false)
 endif
+xml_deps += iconv_dep
 
-if want_iconv == false and want_iso8859x == false
+if not iconv_dep.found() and want_iso8859x == false
     want_iso8859x = false
 else
     want_iso8859x = true
 endif
 
 # icu
-if want_icu == true
-    icu_dep = dependency('icu-i18n', method: 'pkg-config', required: false)
-    if icu_dep.found()
-        def_var = icu_dep.get_variable(pkgconfig: 'DEFS')
-        config_dir += include_directories(def_var)
-        xml_deps += icu_dep
-    else
-        want_icu = false
-    endif
+icu_dep = dependency('icu-i18n', method: 'pkg-config', required: get_option('icu'))
+if icu_dep.found()
+    def_var = icu_dep.get_variable(pkgconfig: 'DEFS')
+    config_dir += include_directories(def_var)
+    xml_deps += icu_dep
 endif
 
 subdir('include/libxml')
@@ -667,7 +650,7 @@ xml_opt_src = [
     [want_html, ['HTMLparser.c', 'HTMLtree.c']],
     [want_http, ['nanohttp.c']],
     [want_legacy, ['legacy.c']],
-    [want_lzma, ['xzlib.c']],
+    [lzma_dep.found(), ['xzlib.c']],
     [with_modules, ['xmlmodule.c']],
     [want_output, ['xmlsave.c']],
     [want_pattern, ['pattern.c']],
@@ -797,12 +780,12 @@ config_cmake.set('LIBXML_MAJOR_VERSION', v_maj)
 config_cmake.set('LIBXML_MINOR_VERSION', v_min)
 config_cmake.set('LIBXML_MICRO_VERSION', v_mic)
 config_cmake.set('VERSION', meson.project_version())
-config_cmake.set('WITH_ICONV', want_iconv.to_int().to_string())
-config_cmake.set('WITH_ICU', want_icu.to_int().to_string())
-config_cmake.set('WITH_LZMA', want_lzma.to_int().to_string())
+config_cmake.set('WITH_ICONV', iconv_dep.found().to_int().to_string())
+config_cmake.set('WITH_ICU', icu_dep.found().to_int().to_string())
+config_cmake.set('WITH_LZMA', lzma_dep.found().to_int().to_string())
 config_cmake.set('WITH_MODULES', want_modules.to_int().to_string())
 config_cmake.set('WITH_THREADS', want_threads.to_int().to_string())
-config_cmake.set('WITH_ZLIB', want_zlib.to_int().to_string())
+config_cmake.set('WITH_ZLIB', zlib_dep.found().to_int().to_string())
 config_cmake.set('XML_CFLAGS', xml_cflags)
 configure_file(
     input: 'libxml2-config.cmake.in',
@@ -834,12 +817,12 @@ summary(
         'history': want_history,
         'html': want_html,
         'http': want_http,
-        'iconv': want_iconv,
-        'icu': want_icu,
+        'iconv': iconv_dep.found(),
+        'icu': icu_dep.found(),
         'ipv6': want_ipv6,
         'iso8859x': want_iso8859x,
         'legacy': want_legacy,
-        'lzma': want_lzma,
+        'lzma': lzma_dep.found(),
         'modules': want_modules,
         'output': want_output,
         'pattern': want_pattern,
@@ -861,7 +844,7 @@ summary(
         'xpath': want_xpath,
         'xptr': want_xptr,
         'xptr-locs': want_xptr_locs,
-        'zlib': want_zlib,
+        'zlib': zlib_dep.found(),
     },
     section: 'Configuration Options Summary:',
 )
