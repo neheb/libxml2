@@ -24,7 +24,7 @@ if py.found() == true
     setup_py.set('WITH_ICU', icu_dep.found().to_int())
     setup_py.set('WITH_LZMA', lzma_dep.found().to_int())
     setup_py.set('WITH_ZLIB', zlib_dep.found().to_int())
-    setup_py.set('WITH_THREADS', want_threads.to_int())
+    setup_py.set('WITH_THREADS', threads_dep.found().to_int())
     configure_file(
         input: 'setup.py.in',
         output: 'setup.py',

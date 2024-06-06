@@ -74,7 +74,6 @@ want_regexps = get_option('regexps')
 want_sax1 = get_option('sax1')
 want_schemas = get_option('schemas')
 want_schematron = get_option('schematron')
-want_threads = get_option('threads')
 want_thread_alloc = get_option('thread-alloc')
 want_tls = get_option('tls')
 want_tree = get_option('tree')
@@ -194,7 +193,6 @@ if get_option('minimum')
     want_sax1 = false
     want_schemas = false
     want_schematron = false
-    want_threads = false
     want_thread_alloc = false
     want_tree = false
     want_valid = false
@@ -421,23 +419,20 @@ if want_modules == true
 endif
 
 ### threads
-if want_threads == true
-    if sys_windows == false
-        threads_dep = dependency('threads')
+threads_dep = dependency('', required: false)
+if not get_option('minimum')
+    if host_machine.system() != 'windows'
+        threads_dep = dependency('threads', required: get_option('threads'))
         if threads_dep.found()
             config_h.set10('HAVE_PTHREAD_H', true)
             xml_deps += threads_dep
-        else
-            want_threads = false
         endif
-    else
-        threads_dep = dependency('', required: false)
+    elif get_option('threads').allowed()
+        threads_dep = declare_dependency()
     endif
 endif
 
-want_thread_alloc = (
-    (want_threads == true and want_threads == true) ? true : false
-)
+want_thread_alloc = threads_dep.found()
 
 ### xmllint shell history
 xmllint_deps = []
@@ -784,7 +779,7 @@ config_cmake.set('WITH_ICONV', iconv_dep.found().to_int().to_string())
 config_cmake.set('WITH_ICU', icu_dep.found().to_int().to_string())
 config_cmake.set('WITH_LZMA', lzma_dep.found().to_int().to_string())
 config_cmake.set('WITH_MODULES', want_modules.to_int().to_string())
-config_cmake.set('WITH_THREADS', want_threads.to_int().to_string())
+config_cmake.set('WITH_THREADS', threads_dep.found().to_int().to_string())
 config_cmake.set('WITH_ZLIB', zlib_dep.found().to_int().to_string())
 config_cmake.set('XML_CFLAGS', xml_cflags)
 configure_file(
@@ -834,7 +829,7 @@ summary(
         'sax1': want_sax1,
         'schemas': want_schemas,
         'schematron': want_schematron,
-        'threads': want_threads,
+        'threads': threads_dep.found(),
         'thread-alloc': want_thread_alloc,
         'tls': want_tls,
         'tree': want_tree,
