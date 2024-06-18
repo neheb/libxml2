@@ -997,13 +997,13 @@ xmlXPathCompExprAdd(xmlXPathParserContextPtr ctxt, int ch1, int ch2,
 	 (op == XPATH_OP_COLLECT))) {
         if (value4 != NULL) {
 	    comp->steps[comp->nbStep].value4 = (xmlChar *)
-	        (void *)xmlDictLookup(comp->dict, value4, -1);
+	        xmlDictLookup(comp->dict, value4, -1);
 	    xmlFree(value4);
 	} else
 	    comp->steps[comp->nbStep].value4 = NULL;
         if (value5 != NULL) {
 	    comp->steps[comp->nbStep].value5 = (xmlChar *)
-	        (void *)xmlDictLookup(comp->dict, value5, -1);
+	        xmlDictLookup(comp->dict, value5, -1);
 	    xmlFree(value5);
 	} else
 	    comp->steps[comp->nbStep].value5 = NULL;
