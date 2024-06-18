@@ -50,7 +50,7 @@ sqlMatch(const char * URI) {
  */
 static void *
 sqlOpen(const char * URI) {
-    if ((URI == NULL) || (strncmp(URI, "sql:", 4)))
+    if ((URI == NULL) || (strncmp(URI, "sql:", 4) != 0))
         return(NULL);
     cur = result;
     rlen = strlen(result);

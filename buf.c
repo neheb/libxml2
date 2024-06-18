@@ -387,7 +387,7 @@ xmlBufGrowInternal(xmlBufPtr buf, size_t len) {
         return(0);
     }
 
-    if (buf->size > (size_t) len) {
+    if (buf->size > len) {
         size = buf->size > SIZE_MAX / 2 ? SIZE_MAX : buf->size * 2;
     } else {
         size = buf->use + len;

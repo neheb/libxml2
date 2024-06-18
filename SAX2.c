@@ -2206,7 +2206,7 @@ xmlSAX2StartElementNs(void *ctx,
 	    ret = xmlNewDocNode(ctxt->myDoc, NULL, localname, NULL);
 	else
 	    ret = xmlNewDocNodeEatName(ctxt->myDoc, NULL,
-	                               (xmlChar *) lname, NULL);
+	                               lname, NULL);
 	if (ret == NULL) {
 	    xmlSAX2ErrMemory(ctxt);
 	    return;

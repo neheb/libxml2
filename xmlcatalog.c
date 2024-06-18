@@ -268,7 +268,7 @@ static void usershell(void) {
 		xmlCatalogSetDebug(verbose);
 	    }
 	} else {
-	    if (strcmp(command, "help")) {
+	    if (strcmp(command, "help") != 0) {
 		printf("Unrecognized command %s\n", command);
 	    }
 	    printf("Commands available:\n");
@@ -417,8 +417,8 @@ int main(int argc, char **argv) {
 
 	    if (argv[i][0] != '-')
 		continue;
-	    if (strcmp(argv[i], "-add") && strcmp(argv[i], "--add") &&
-		strcmp(argv[i], "-del") && strcmp(argv[i], "--del"))
+	    if (strcmp(argv[i], "-add") != 0 && strcmp(argv[i], "--add") &&
+		strcmp(argv[i], "-del") != 0 && strcmp(argv[i], "--del") != 0)
 		continue;
 
 	    if (sgml) {

@@ -117,7 +117,7 @@ asciiToUTF8(unsigned char* out, int *outlen,
 	    return(XML_ENC_ERR_INPUT);
 	}
 
-	processed = (const unsigned char*) in;
+	processed = in;
     }
     *outlen = out - outstart;
     *inlen = processed - base;

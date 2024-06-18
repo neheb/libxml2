@@ -1675,13 +1675,13 @@ xmlOutputBufferWriteBinHex(xmlOutputBufferPtr out,
     for (i = 0; i < len; i++) {
         count =
             xmlOutputBufferWrite(out, 1,
-                                 (const char *) &hex[data[i] >> 4]);
+                                 (&hex[data[i] >> 4]));
         if (count == -1)
             return -1;
         sum += count;
         count =
             xmlOutputBufferWrite(out, 1,
-                                 (const char *) &hex[data[i] & 0xF]);
+                                 (&hex[data[i] & 0xF]));
         if (count == -1)
             return -1;
         sum += count;

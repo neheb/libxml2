@@ -2003,7 +2003,7 @@ xmlParserInputBufferCreateIO(xmlInputReadCallback   ioread,
 
     ret = xmlAllocParserInputBuffer(enc);
     if (ret != NULL) {
-        ret->context = (void *) ioctx;
+        ret->context = ioctx;
 	ret->readcallback = ioread;
 	ret->closecallback = ioclose;
     }
@@ -2034,7 +2034,7 @@ xmlOutputBufferCreateIO(xmlOutputWriteCallback   iowrite,
 
     ret = xmlAllocOutputBufferInternal(encoder);
     if (ret != NULL) {
-        ret->context = (void *) ioctx;
+        ret->context = ioctx;
 	ret->writecallback = iowrite;
 	ret->closecallback = ioclose;
     }

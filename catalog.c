@@ -1350,7 +1350,7 @@ xmlParseXMLCatalogFile(xmlCatalogPrefer prefer, const xmlChar *filename) {
 	(xmlStrEqual(cur->ns->href, XML_CATALOGS_NAMESPACE))) {
 
 	parent = xmlNewCatalogEntry(XML_CATA_CATALOG, NULL,
-				    (const xmlChar *)filename, NULL, prefer, NULL);
+				    filename, NULL, prefer, NULL);
         if (parent == NULL) {
 	    xmlFreeDoc(doc);
 	    return(NULL);

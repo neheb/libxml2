@@ -1559,8 +1559,8 @@ xmlSchemaGetCanonValueWhtspExt_1(xmlSchemaValPtr val,
 		*retValue = xmlStrdup(value);
 	else if (value != NULL) {
 	    /* List. */
-	    *retValue = xmlStrcat((xmlChar *) *retValue, BAD_CAST " ");
-	    *retValue = xmlStrcat((xmlChar *) *retValue, value);
+	    *retValue = xmlStrcat( (*retValue), BAD_CAST " ");
+	    *retValue = xmlStrcat( (*retValue), value);
 	}
 	FREE_AND_NULL(value2)
 	val = xmlSchemaValueGetNext(val);
@@ -1569,7 +1569,7 @@ xmlSchemaGetCanonValueWhtspExt_1(xmlSchemaValPtr val,
     return (0);
 internal_error:
     if (*retValue != NULL)
-	xmlFree((xmlChar *) (*retValue));
+	xmlFree((*retValue));
     if (value2 != NULL)
 	xmlFree((xmlChar *) value2);
     return (-1);
@@ -1873,7 +1873,7 @@ xmlSchemaFormatFacetEnumSet(xmlSchemaAbstractCtxtPtr actxt,
 	    *buf = xmlStrcat(*buf, BAD_CAST value);
 	    *buf = xmlStrcat(*buf, BAD_CAST "'");
 	    if (value != NULL) {
-		xmlFree((xmlChar *)value);
+		xmlFree(value);
 		value = NULL;
 	    }
 	}
@@ -8107,7 +8107,7 @@ xmlSchemaAddAnnotation(xmlSchemaAnnotItemPtr annItem,
 	case XML_SCHEMA_TYPE_IDC_KEY:
 	case XML_SCHEMA_TYPE_IDC_KEYREF:
 	case XML_SCHEMA_TYPE_IDC_UNIQUE: {
-		xmlSchemaAnnotItemPtr item = (xmlSchemaAnnotItemPtr) annItem;
+		xmlSchemaAnnotItemPtr item = annItem;
 		ADD_ANNOTATION(annot)
 	    }
 	    break;
@@ -8949,8 +8949,7 @@ xmlSchemaParseUnion(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
 	* simple type.
 	*/
 	while (IS_SCHEMA(child, "simpleType")) {
-	    subtype = (xmlSchemaTypePtr)
-		xmlSchemaParseSimpleType(ctxt, schema, child, 0);
+	    subtype = 	xmlSchemaParseSimpleType(ctxt, schema, child, 0);
 	    if (subtype != NULL) {
 		if (last == NULL) {
 		    type->subtypes = subtype;
@@ -11558,8 +11557,7 @@ xmlSchemaParseRestriction(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
 		    "The attribute 'base' and the <simpleType> child are "
 		    "mutually exclusive", NULL);
 	    } else {
-		type->baseType = (xmlSchemaTypePtr)
-		    xmlSchemaParseSimpleType(ctxt, schema, child, 0);
+		type->baseType = xmlSchemaParseSimpleType(ctxt, schema, child, 0);
 	    }
 	    child = child->next;
 	} else if (type->base == NULL) {
@@ -11615,8 +11613,7 @@ xmlSchemaParseRestriction(xmlSchemaParserCtxtPtr ctxt, xmlSchemaPtr schema,
 	    * We will store the to-be-restricted simple type in
 	    * type->contentTypeDef *temporarily*.
 	    */
-	    type->contentTypeDef = (xmlSchemaTypePtr)
-		xmlSchemaParseSimpleType(ctxt, schema, child, 0);
+	    type->contentTypeDef = 	xmlSchemaParseSimpleType(ctxt, schema, child, 0);
 	    if ( type->contentTypeDef == NULL)
 		return (NULL);
 	    child = child->next;
@@ -18292,7 +18289,7 @@ xmlSchemaFixupComplexType(xmlSchemaParserCtxtPtr pctxt,
 	    (particle->children->type == XML_SCHEMA_TYPE_SEQUENCE) ||
 	    ((particle->children->type == XML_SCHEMA_TYPE_CHOICE) &&
 	    (particle->minOccurs == 0))) &&
-	    ( ((xmlSchemaTreeItemPtr) particle->children)->children == NULL))) {
+	    ( ( particle->children)->children == NULL))) {
 	    if (type->flags & XML_SCHEMAS_TYPE_MIXED) {
 		/*
 		* SPEC (2.1.4) "If the `effective mixed` is true, then
@@ -21146,7 +21143,7 @@ xmlSchemaFixupComponents(xmlSchemaParserCtxtPtr pctxt,
 		if ((elemDecl->flags & XML_SCHEMAS_ELEM_INTERNAL_CHECKED) == 0)
 		{
 		    xmlSchemaCheckElementDeclComponent(
-			(xmlSchemaElementPtr) elemDecl, pctxt);
+			elemDecl, pctxt);
 		    FIXHFAILURE;
 		}
 

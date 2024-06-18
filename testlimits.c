@@ -114,7 +114,7 @@ hugeMatch(const char * URI) {
  */
 static void *
 hugeOpen(const char * URI) {
-    if ((URI == NULL) || (strncmp(URI, "huge:", 5)))
+    if ((URI == NULL) || (strncmp(URI, "huge:", 5) != 0))
         return(NULL);
 
     for (currentTest = 0;currentTest < sizeof(hugeTests)/sizeof(hugeTests[0]);
@@ -277,7 +277,7 @@ crazyMatch(const char * URI) {
  */
 static void *
 crazyOpen(const char * URI) {
-    if ((URI == NULL) || (strncmp(URI, "crazy:", 6)))
+    if ((URI == NULL) || (strncmp(URI, "crazy:", 6) != 0))
         return(NULL);
 
     if (crazy_indx > strlen(crazy))

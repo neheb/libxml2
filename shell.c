@@ -783,7 +783,7 @@ xmllintShellWrite(xmllintShellCtxtPtr ctxt, char *filename, xmlNodePtr node,
 #endif
     switch (node->type) {
         case XML_DOCUMENT_NODE:
-            if (xmlSaveFile((char *) filename, ctxt->doc) < -1) {
+            if (xmlSaveFile( filename, ctxt->doc) < -1) {
                 fprintf(ctxt->output,
                                 "Failed to write to %s\n", filename);
                 return (-1);
@@ -791,7 +791,7 @@ xmllintShellWrite(xmllintShellCtxtPtr ctxt, char *filename, xmlNodePtr node,
             break;
         case XML_HTML_DOCUMENT_NODE:
 #ifdef LIBXML_HTML_ENABLED
-            if (htmlSaveFile((char *) filename, ctxt->doc) < 0) {
+            if (htmlSaveFile( filename, ctxt->doc) < 0) {
                 fprintf(ctxt->output,
                                 "Failed to write to %s\n", filename);
                 return (-1);
@@ -807,7 +807,7 @@ xmllintShellWrite(xmllintShellCtxtPtr ctxt, char *filename, xmlNodePtr node,
         default:{
                 FILE *f;
 
-                f = fopen((char *) filename, "w");
+                f = fopen( filename, "w");
                 if (f == NULL) {
                     fprintf(ctxt->output,
                                     "Failed to write to %s\n", filename);
@@ -852,14 +852,14 @@ xmllintShellSave(xmllintShellCtxtPtr ctxt, char *filename,
 #endif
     switch (ctxt->doc->type) {
         case XML_DOCUMENT_NODE:
-            if (xmlSaveFile((char *) filename, ctxt->doc) < 0) {
+            if (xmlSaveFile( filename, ctxt->doc) < 0) {
                 fprintf(ctxt->output,
                                 "Failed to save to %s\n", filename);
             }
             break;
         case XML_HTML_DOCUMENT_NODE:
 #ifdef LIBXML_HTML_ENABLED
-            if (htmlSaveFile((char *) filename, ctxt->doc) < 0) {
+            if (htmlSaveFile( filename, ctxt->doc) < 0) {
                 fprintf(ctxt->output,
                                 "Failed to save to %s\n", filename);
             }

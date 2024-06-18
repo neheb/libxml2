@@ -362,7 +362,7 @@ xmlStrstr(const xmlChar *str, const xmlChar *val) {
     if (n == 0) return(str);
     while (*str != 0) { /* non input consuming */
         if (*str == *val) {
-            if (!xmlStrncmp(str, val, n)) return((const xmlChar *) str);
+            if (!xmlStrncmp(str, val, n)) return( str);
         }
         str++;
     }
@@ -561,7 +561,7 @@ xmlStrPrintf(xmlChar *buf, int len, const char *msg, ...) {
     }
 
     va_start(args, msg);
-    ret = vsnprintf((char *) buf, len, (const char *) msg, args);
+    ret = vsnprintf((char *) buf, len, msg, args);
     va_end(args);
     buf[len - 1] = 0; /* be safe ! */
 
@@ -587,7 +587,7 @@ xmlStrVPrintf(xmlChar *buf, int len, const char *msg, va_list ap) {
         return(-1);
     }
 
-    ret = vsnprintf((char *) buf, len, (const char *) msg, ap);
+    ret = vsnprintf((char *) buf, len, msg, ap);
     buf[len - 1] = 0; /* be safe ! */
 
     return(ret);
@@ -707,7 +707,7 @@ xmlStrVASPrintf(xmlChar **out, int maxSize, const char *msg, va_list ap) {
         buf[i] = 0;
     }
 
-    *out = (xmlChar *) buf;
+    *out = buf;
     return(truncated);
 }
 

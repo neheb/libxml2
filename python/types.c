@@ -248,7 +248,7 @@ libxml_doubleWrap(double val)
 {
     PyObject *ret;
 
-    ret = PyFloat_FromDouble((double) val);
+    ret = PyFloat_FromDouble( val);
     return (ret);
 }
 

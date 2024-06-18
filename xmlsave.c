@@ -1050,7 +1050,7 @@ htmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
     }
 
     if ((encoding != NULL) && (doc != NULL))
-	htmlSetMetaEncoding(doc, (const xmlChar *) encoding);
+	htmlSetMetaEncoding(doc, encoding);
     if ((encoding == NULL) && (doc != NULL))
 	encoding = htmlGetMetaEncoding(doc);
     if (encoding == NULL)
@@ -1388,7 +1388,7 @@ xmlDocContentDumpOutput(xmlSaveCtxtPtr ctxt, xmlDocPtr cur) {
         (ctxt->options & XML_SAVE_AS_HTML)) {
 #ifdef LIBXML_HTML_ENABLED
         if (encoding != NULL)
-	    htmlSetMetaEncoding(cur, (const xmlChar *) encoding);
+	    htmlSetMetaEncoding(cur, encoding);
         if (encoding == NULL)
 	    encoding = htmlGetMetaEncoding(cur);
         if (encoding == NULL)

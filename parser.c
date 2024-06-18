@@ -10176,7 +10176,7 @@ xmlParseEncodingDecl(xmlParserCtxtPtr ctxt) {
         encoding = xmlParseEncName(ctxt);
         if (RAW != '"') {
             xmlFatalErr(ctxt, XML_ERR_STRING_NOT_CLOSED, NULL);
-            xmlFree((xmlChar *) encoding);
+            xmlFree( encoding);
             return(NULL);
         } else
             NEXT;
@@ -10185,7 +10185,7 @@ xmlParseEncodingDecl(xmlParserCtxtPtr ctxt) {
         encoding = xmlParseEncName(ctxt);
         if (RAW != '\'') {
             xmlFatalErr(ctxt, XML_ERR_STRING_NOT_CLOSED, NULL);
-            xmlFree((xmlChar *) encoding);
+            xmlFree( encoding);
             return(NULL);
         } else
             NEXT;

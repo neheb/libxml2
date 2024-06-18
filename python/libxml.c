@@ -124,10 +124,10 @@ libxml_xmlDebugMemory(PyObject * self ATTRIBUTE_UNUSED, PyObject * args)
              * First initialize the library and grab the old memory handlers
              * and switch the library to memory debugging
              */
-            xmlMemGet((xmlFreeFunc *) & freeFunc,
-                      (xmlMallocFunc *) & mallocFunc,
-                      (xmlReallocFunc *) & reallocFunc,
-                      (xmlStrdupFunc *) & strdupFunc);
+            xmlMemGet( (& freeFunc),
+                      (& mallocFunc),
+                      (& reallocFunc),
+                      (& strdupFunc));
             if ((freeFunc == xmlMemFree) && (mallocFunc == xmlMemMalloc) &&
                 (reallocFunc == xmlMemRealloc) &&
                 (strdupFunc == xmlMemoryStrdup)) {
@@ -521,7 +521,7 @@ libxml_xmlOutputBufferClose(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     }
 
     c_retval = xmlOutputBufferClose(out);
-    py_retval = libxml_intWrap((int) c_retval);
+    py_retval = libxml_intWrap( c_retval);
     return(py_retval);
 }
 
@@ -537,7 +537,7 @@ libxml_xmlOutputBufferFlush(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
     out = (xmlOutputBufferPtr) PyoutputBuffer_Get(pyobj_out);
 
     c_retval = xmlOutputBufferFlush(out);
-    py_retval = libxml_intWrap((int) c_retval);
+    py_retval = libxml_intWrap( c_retval);
     return(py_retval);
 }
 
@@ -560,7 +560,7 @@ libxml_xmlSaveFileTo(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
 	/* xmlSaveTo() freed the memory pointed to by buf, so record that in the
 	 * Python object. */
     ((PyoutputBuffer_Object *)(pyobj_buf))->obj = NULL;
-    py_retval = libxml_intWrap((int) c_retval);
+    py_retval = libxml_intWrap( c_retval);
     return(py_retval);
 }
 
@@ -584,7 +584,7 @@ libxml_xmlSaveFormatFileTo(PyObject *self ATTRIBUTE_UNUSED, PyObject *args) {
 	/* xmlSaveFormatFileTo() freed the memory pointed to by buf, so record that
 	 * in the Python object */
 	((PyoutputBuffer_Object *)(pyobj_buf))->obj = NULL;
-    py_retval = libxml_intWrap((int) c_retval);
+    py_retval = libxml_intWrap( c_retval);
     return(py_retval);
 }
 #endif /* LIBXML_OUTPUT_ENABLED */
@@ -1728,7 +1728,7 @@ libxml_xmlFreeParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     ctxt = (xmlParserCtxtPtr) PyparserCtxt_Get(pyobj_ctxt);
 
     if (ctxt != NULL) {
-	pyCtxt = (xmlParserCtxtPyCtxtPtr)((xmlParserCtxtPtr)ctxt)->_private;
+	pyCtxt = (xmlParserCtxtPyCtxtPtr)(ctxt)->_private;
 	if (pyCtxt) {
 	    Py_XDECREF(pyCtxt->f);
 	    Py_XDECREF(pyCtxt->arg);
@@ -2215,7 +2215,7 @@ libxml_xmlRegisterXPathFunction(ATTRIBUTE_UNUSED PyObject * self,
         c_retval = 1;
     
   done:
-    py_retval = libxml_intWrap((int) c_retval);
+    py_retval = libxml_intWrap( c_retval);
     return (py_retval);
 }
 
@@ -2625,7 +2625,7 @@ libxml_xmlNodeGetNsDefs(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
         return (Py_None);
     }
     c_retval = node->nsDef;
-    py_retval = libxml_xmlNsPtrWrap((xmlNsPtr) c_retval);
+    py_retval = libxml_xmlNsPtrWrap( c_retval);
     return (py_retval);
 }
 
@@ -2674,7 +2674,7 @@ libxml_xmlNodeRemoveNsDef(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
     }
 
     c_retval = ns;
-    py_retval = libxml_xmlNsPtrWrap((xmlNsPtr) c_retval);
+    py_retval = libxml_xmlNsPtrWrap( c_retval);
     return (py_retval);
 }
 
@@ -2697,7 +2697,7 @@ libxml_xmlNodeGetNs(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
         return (Py_None);
     }
     c_retval = node->ns;
-    py_retval = libxml_xmlNsPtrWrap((xmlNsPtr) c_retval);
+    py_retval = libxml_xmlNsPtrWrap( c_retval);
     return (py_retval);
 }
 
@@ -2868,7 +2868,7 @@ libxml_xmlNewNode(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
 
     if (!PyArg_ParseTuple(args, (char *) "s:xmlNewNode", &name))
         return (NULL);
-    node = (xmlNodePtr) xmlNewNode(NULL, name);
+    node = xmlNewNode(NULL, name);
 
     if (node == NULL) {
         Py_INCREF(Py_None);

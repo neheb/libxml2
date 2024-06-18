@@ -2004,7 +2004,7 @@ xmlNewDocPI(xmlDocPtr doc, const xmlChar *name, const xmlChar *content) {
     }
 
     if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
-	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
+	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 
 error:
@@ -2091,7 +2091,7 @@ xmlNewElem(xmlDocPtr doc, xmlNsPtr ns, const xmlChar *name,
     }
 
     if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
-	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
+	xmlRegisterNodeDefaultValue(cur);
 
     return(cur);
 }
@@ -3038,7 +3038,7 @@ xmlInsertProp(xmlDocPtr doc, xmlNodePtr cur, xmlNodePtr parent,
 
     if ((attr != NULL) && (attr != (xmlAttrPtr) cur)) {
         /* different instance, destroy it (attributes must be unique) */
-        xmlRemoveProp((xmlAttrPtr) attr);
+        xmlRemoveProp( attr);
     }
 
     return cur;
@@ -4324,7 +4324,7 @@ xmlStaticCopyNode(xmlNodePtr node, xmlDocPtr doc, xmlNodePtr parent,
 
 out:
     if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
-	xmlRegisterNodeDefaultValue((xmlNodePtr)ret);
+	xmlRegisterNodeDefaultValue(ret);
     return(ret);
 
 error:

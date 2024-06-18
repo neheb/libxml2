@@ -1690,7 +1690,7 @@ xmlURIEscapeStr(const xmlChar *str, const xmlChar *list) {
     ret = (xmlChar *) xmlMallocAtomic(len);
     if (ret == NULL)
 	return(NULL);
-    in = (const xmlChar *) str;
+    in = str;
     out = 0;
     while(*in != 0) {
 	if (len - out <= 3) {
@@ -2537,7 +2537,7 @@ xmlBuildRelativeURISafe(const xmlChar * URI, const xmlChar * base,
 	    if (rptr[ix - 1] == '/')
 		break;
 	}
-	uptr = (xmlChar *)&rptr[ix];
+	uptr = (&rptr[ix]);
 
 	/*
 	 * In base, count the number of '/' from the differing point
@@ -2691,7 +2691,7 @@ xmlCanonicPath(const xmlChar *path)
          */
         ret = xmlURIEscapeStr(path, BAD_CAST ":/?#[]@!$&()*+,;='%");
     } else {
-        ret = xmlStrdup((const xmlChar *) path);
+        ret = xmlStrdup( path);
     }
 
     return(ret);

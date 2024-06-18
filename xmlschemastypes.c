@@ -502,7 +502,7 @@ xmlSchemaCleanupTypesInternal(void) {
         xmlFree((xmlSchemaParticlePtr) particle->children->children);
         /* Sequence model group. */
         xmlFree((xmlSchemaModelGroupPtr) particle->children);
-        xmlFree((xmlSchemaParticlePtr) particle);
+        xmlFree( particle);
         xmlSchemaTypeAnyTypeDef->subtypes = NULL;
         xmlSchemaTypeAnyTypeDef = NULL;
     }
