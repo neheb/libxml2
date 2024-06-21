@@ -331,9 +331,13 @@ endif
 
 ### threads
 if want_threads
-    threads_dep = dependency('threads')
-    config_h.set10('HAVE_PTHREAD_H', true)
-    xml_deps += threads_dep
+    if not sys_windows
+        threads_dep = dependency('threads')
+        config_h.set10('HAVE_PTHREAD_H', true)
+        xml_deps += threads_dep
+    else
+        threads_dep = declare_dependency()
+    endif
 else
     threads_dep = dependency('', required: false)
 endif
